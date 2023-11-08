@@ -19,6 +19,7 @@ const SLOT_START_POS = 40;
 const SLOT_Y_OFFSET = G.HEIGHT / 2;
 const SLOT_SPACING = 10;
 const DELAY = 25;
+const SPEED_FACTOR = 5;
 
 // JSDoc comments for typing
 /**
@@ -46,9 +47,11 @@ let payOutKey;
 
 let curColumn = 0;
 let curTimer = DELAY;
+let curBonus = -1;
 
 function update() {
   if (!ticks) {
+    initializePayouts();
     initializeSlotProperties();
   }
   spinSlots();
@@ -67,6 +70,15 @@ function initializeSlotProperties() {
       locked: false,
     };
   });
+}
+
+function initializePayouts() {
+  payOutKey = new Map();
+  for (let i = 1; i < SLOT.length + 1; i++) {
+    const key = `${i}${i}${i}`;
+    payOutKey.set(key, 100);
+    console.log(key);
+  }
 }
 
 function drawSlots() {
@@ -91,19 +103,37 @@ function spinSlots() {
         }
       }
     }
-    curTimer = DELAY;
+    curTimer = DELAY - SPEED_FACTOR * curColumn;
   }
 }
 
 function stopSlots() {
   if (curColumn >= 3) {
-    curColumn = 0;
-    for (let col of slotGame) {
-      col.locked = false;
-    }
+    parseMatch();
+    resetSlots();
     return;
   }
 
   slotGame[curColumn].locked = true;
   curColumn += 1;
+}
+
+function parseMatch() {
+  let curMatch = "";
+  for (let col of slotGame) {
+    curMatch += col.items[col.result].toString();
+  }
+
+  if (payOutKey.has(curMatch)) {
+    addScore(payOutKey.get(curMatch));
+  }
+}
+
+function resetSlots() {
+  for (let col of slotGame) {
+    col.result = col.items[0];
+    col.locked = false;
+  }
+
+  curColumn = 0;
 }
