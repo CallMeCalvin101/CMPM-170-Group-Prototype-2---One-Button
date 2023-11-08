@@ -2,7 +2,64 @@ title = "SLOTS";
 
 description = `Gamble`;
 
-characters = [];
+characters = [
+`
+
+grrbrg
+grrrrg
+ grrg
+  gg
+
+`,`
+ rrrr
+rr   r
+r r  r
+r  r r
+r   rr
+ rrrr
+`,`
+    g
+  gg
+ g g
+ g g
+rr rr
+rr rr
+`,`
+     b
+    yy
+y  yyy
+ yyyy
+  yy
+
+`,`
+ rrrr
+    r
+	   r
+   r
+   r
+   r
+`,`
+rrrrrr
+r  rrr
+r rrrr
+ rrrr
+  rr
+`,`
+    g
+ ppp g
+ppppp
+ppppp
+ppppp
+ ppp
+`,`
+  YY
+ YYYY
+ YYYY
+ YYYY
+YYYYYY
+YYYYYY
+`
+];
 
 const G = {
   WIDTH: 100,
