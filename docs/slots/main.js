@@ -121,7 +121,14 @@ function stopSlots() {
   }
 
   slotGame[curColumn].locked = true;
+
+  if (slotGame[curColumn].items[slotGame[curColumn].result] == curBonus) {
+    addScore(50);
+  } else {
+    curBonus = -1;
+  }
   curColumn += 1;
+  console.log(curBonus);
 }
 
 function parseMatch() {
@@ -132,6 +139,7 @@ function parseMatch() {
 
   if (payOutKey.has(curMatch)) {
     addScore(payOutKey.get(curMatch));
+    curBonus = slotGame[0].items[slotGame[0].result];
   }
 }
 
