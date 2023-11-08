@@ -83,11 +83,17 @@ function initializePayouts() {
 
 function drawSlots() {
   for (let i = 0; i < slotGame.length; i++) {
-    text(
-      slotGame[i].items[slotGame[i].result].toString(),
-      SLOT_START_POS + SLOT_SPACING * i,
-      SLOT_Y_OFFSET
+    // text(
+    //   slotGame[i].items[slotGame[i].result].toString(),
+    //   SLOT_START_POS + SLOT_SPACING * i,
+    //   SLOT_Y_OFFSET
+    // );
+
+    let character = String.fromCharCode(
+      96 + slotGame[i].items[slotGame[i].result]
     );
+
+    char(character, vec(SLOT_START_POS + SLOT_SPACING * i, SLOT_Y_OFFSET));
   }
 }
 
