@@ -107,7 +107,12 @@ let curTimer = DELAY;
 let curBonus = -1;
 let centerVar = 0;
 
-let resetting = false
+//let resetting = false
+
+let prevRoll = 0
+let curRoll = 0
+let streak = 0
+
 
 function update() {
   if (!ticks) {
@@ -207,22 +212,28 @@ function stopSlots() {
   }
   
   slotGame[curColumn].locked = true;
-  if(resetting){
-    resetSlots();
-    resetting = false;
-    return;
-  }
+  // if(resetting){
+  //   resetSlots();
+  //   resetting = false;
+  //   end();
+  //   return;
+  // }
   if (slotGame[curColumn].items[slotGame[curColumn].result] == 2) {
-    resetting = true 
+    //resetting = true 
+    resetSlots(); 
+    end();
     return;
   }
 
-
-  if (slotGame[curColumn].items[slotGame[curColumn].result] == curBonus) {
-    addScore(50);
+  curRoll = slotGame[curColumn].items[slotGame[curColumn].result]
+  if (curRoll == prevRoll) {
+    addScore(50 + 10*streak);
+    streak += 1;
   } else {
-    curBonus = -1;
+    streak = 0;
   }
+  prevRoll = curRoll
+
   curColumn += 1;
   if (curColumn >= slotGame.length) {
     addSlotColumn();
