@@ -67,7 +67,7 @@ const G = {
 };
 
 options = {
-  viewSize: { x: G.WIDTH, y: G.HEIGHT },
+  viewSize: { x: G.WIDTH, y: G.HEIGHT },  
 };
 
 const SLOT = [1, 2, 3, 4, 5, 6, 7];
@@ -265,10 +265,24 @@ function resetSlots() {
 
 function addSlotColumn() {
 slotGame.push({
-  items: SLOT,
+  items: shuffleArray(SLOT),
   result: 0,
   locked: false,
 });
+
+function shuffleArray(array) {
+  let newArray = [...array]; // Create a copy of the array
+  for (let i = newArray.length - 1; i > 0; i--) {
+      // Generate a random index
+      let j = Math.floor(Math.random() * (i + 1));
+
+      // Swap elements at indices i and j in the newArray
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray; // Return the shuffled copy
+}
+
+
 
 // NUM_COLUMNS = slotGame.length;
 
