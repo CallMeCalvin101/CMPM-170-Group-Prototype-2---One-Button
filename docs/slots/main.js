@@ -3,62 +3,69 @@ title = "SLOTS";
 description = `Gamble`;
 
 characters = [
-`
+  `
 
 grrbrg
 grrrrg
  grrg
   gg
 
-`,`
+`,
+  `
  rrrr
 rr   r
 r r  r
 r  r r
 r   rr
  rrrr
-`,`
+`,
+  `
     g
   gg
  g g
  g g
 rr rr
 rr rr
-`,`
+`,
+  `
      b
     yy
 y  yyy
  yyyy
   yy
 
-`,`
+`,
+  `
  rrrr
     r
 	   r
    r
    r
    r
-`,`
+`,
+  `
 rrrrrr
 r  rrr
 r rrrr
  rrrr
   rr
-`,`
+`,
+  `
     g
  ppp g
 ppppp
 ppppp
 ppppp
  ppp
-`,`
+`,
+  `
   YY
  YYYY
  YYYY
  YYYY
 YYYYYY
 YYYYYY
-`
+`,
 ];
 
 const G = {
@@ -67,7 +74,7 @@ const G = {
 };
 
 options = {
-  viewSize: { x: G.WIDTH, y: G.HEIGHT },  
+  viewSize: { x: G.WIDTH, y: G.HEIGHT },
 };
 
 const SLOT = [1, 2, 3, 4, 5, 6, 7];
@@ -109,10 +116,9 @@ let centerVar = 0;
 
 //let resetting = false
 
-let prevRoll = 0
-let curRoll = 0
-let streak = 0
-
+let prevRoll = 0;
+let curRoll = 0;
+let streak = 0;
 
 function update() {
   if (!ticks) {
@@ -150,34 +156,52 @@ function drawSlots() {
   for (let i = 0; i < slotGame.length; i++) {
     let extraHeight = 10;
 
-
     let slotColumn = slotGame[i];
     let currentItemIndex = slotColumn.result;
-    let previousItemIndex = (currentItemIndex - 1 + slotColumn.items.length) % slotColumn.items.length;
+    let previousItemIndex =
+      (currentItemIndex - 1 + slotColumn.items.length) %
+      slotColumn.items.length;
     let nextItemIndex = (currentItemIndex + 1) % slotColumn.items.length;
 
-    let character = String.fromCharCode(96 + slotColumn.items[currentItemIndex]);
-    let aboveCharacter = String.fromCharCode(96 + slotColumn.items[previousItemIndex]);
-    let belowCharacter = String.fromCharCode(96 + slotColumn.items[nextItemIndex]);
+    let character = String.fromCharCode(
+      96 + slotColumn.items[currentItemIndex]
+    );
+    let aboveCharacter = String.fromCharCode(
+      96 + slotColumn.items[previousItemIndex]
+    );
+    let belowCharacter = String.fromCharCode(
+      96 + slotColumn.items[nextItemIndex]
+    );
 
-
-    line(vec(0, SLOT_Y_OFFSET - 5), vec(100, SLOT_Y_OFFSET - 5 ));
-    line(vec(0, SLOT_Y_OFFSET + 5), vec(100, SLOT_Y_OFFSET + 5 ));
-    
-    
+    line(vec(0, SLOT_Y_OFFSET - 5), vec(100, SLOT_Y_OFFSET - 5));
+    line(vec(0, SLOT_Y_OFFSET + 5), vec(100, SLOT_Y_OFFSET + 5));
 
     //console.log(character, aboveCharacter)
     // let below = String.fromCharCode(
     //   96 + slotGame[i-1].items[slotGame[i-1].result]
     // );
 
-
-    if(slotGame.length > 6){
-      centerVar = (slotGame.length- 6) * SLOT_SPACING
+    if (slotGame.length > 6) {
+      centerVar = (slotGame.length - 6) * SLOT_SPACING;
     }
-    char(aboveCharacter, vec(SLOT_START_POS + (SLOT_SPACING * i) - centerVar, SLOT_Y_OFFSET + extraHeight));
-    char(character, vec(SLOT_START_POS + (SLOT_SPACING * i) - centerVar, SLOT_Y_OFFSET));
-    char(belowCharacter, vec(SLOT_START_POS + (SLOT_SPACING * i) - centerVar, SLOT_Y_OFFSET - extraHeight));
+    char(
+      aboveCharacter,
+      vec(
+        SLOT_START_POS + SLOT_SPACING * i - centerVar,
+        SLOT_Y_OFFSET + extraHeight
+      )
+    );
+    char(
+      character,
+      vec(SLOT_START_POS + SLOT_SPACING * i - centerVar, SLOT_Y_OFFSET)
+    );
+    char(
+      belowCharacter,
+      vec(
+        SLOT_START_POS + SLOT_SPACING * i - centerVar,
+        SLOT_Y_OFFSET - extraHeight
+      )
+    );
     //char(below, vec(SLOT_START_POS + (SLOT_SPACING * i) - centerVar, SLOT_Y_OFFSET - extraHeight));
     //char(character, vec(SLOT_START_POS + SLOT_SPACING * i, SLOT_Y_OFFSET));
   }
@@ -201,16 +225,15 @@ function spinSlots() {
 
 function stopSlots() {
   // console.log(curColumn)
-  
+
   if (curColumn >= slotGame.length) {
-    
     parseMatch();
-    
+
     //resetSlots();
-    
+
     return;
   }
-  
+  play("coin");
   slotGame[curColumn].locked = true;
   // if(resetting){
   //   resetSlots();
@@ -219,26 +242,25 @@ function stopSlots() {
   //   return;
   // }
   if (slotGame[curColumn].items[slotGame[curColumn].result] == 2) {
-    //resetting = true 
-    resetSlots(); 
+    //resetting = true
+    resetSlots();
     end();
     return;
   }
 
-  curRoll = slotGame[curColumn].items[slotGame[curColumn].result]
+  curRoll = slotGame[curColumn].items[slotGame[curColumn].result];
   if (curRoll == prevRoll) {
-    addScore(50 + 10*streak);
+    addScore(50 + 10 * streak);
     streak += 1;
   } else {
     streak = 0;
   }
-  prevRoll = curRoll
+  prevRoll = curRoll;
 
   curColumn += 1;
   if (curColumn >= slotGame.length) {
     addSlotColumn();
   }
-  
 }
 
 function parseMatch() {
@@ -258,34 +280,32 @@ function resetSlots() {
     col.result = col.items[0];
     col.locked = false;
   }
-  initializeSlotProperties()
+  initializeSlotProperties();
   curColumn = 0;
   centerVar = 0;
 }
 
 function addSlotColumn() {
-slotGame.push({
-  items: shuffleArray(SLOT),
-  result: 0,
-  locked: false,
-});
+  slotGame.push({
+    items: shuffleArray(SLOT),
+    result: 0,
+    locked: false,
+  });
 
-function shuffleArray(array) {
-  let newArray = [...array]; // Create a copy of the array
-  for (let i = newArray.length - 1; i > 0; i--) {
+  function shuffleArray(array) {
+    let newArray = [...array]; // Create a copy of the array
+    for (let i = newArray.length - 1; i > 0; i--) {
       // Generate a random index
       let j = Math.floor(Math.random() * (i + 1));
 
       // Swap elements at indices i and j in the newArray
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray; // Return the shuffled copy
   }
-  return newArray; // Return the shuffled copy
-}
 
+  // NUM_COLUMNS = slotGame.length;
 
-
-// NUM_COLUMNS = slotGame.length;
-
-//   // Optionally, adjust SLOT_START_POS, SLOT_Y_OFFSET, and SLOT_SPACING as needed
-//   adjustSlotPositions();
+  //   // Optionally, adjust SLOT_START_POS, SLOT_Y_OFFSET, and SLOT_SPACING as needed
+  //   adjustSlotPositions();
 }
